@@ -32,28 +32,28 @@ export function Calender() {
     return (
         <>
         	<table>
-						<tbody id="calendar_body">
-							<tr><td>{year + "년"}</td></tr>
-							<tr>
-							<td>
-								<button onClick={(e) => { MonthChange(-1);}}>{month - 1 > 1 ? month - 1 : 12}</button>
-							</td>
-							<td>{month + "월"}</td>
-							<td>
-								<button onClick={(e) => { MonthChange(1);}}>{month + 1 < 12 ? month + 1 : 1}</button>
-							</td>
-							</tr>
-							<tr>
-								<td>일</td>
-								<td>월</td>
-								<td>화</td>
-								<td>수</td>
-								<td>목</td>
-								<td>금</td>
-								<td>토</td>
-							</tr>
-							<tr id="date">{[...Array(lastDate[month - 1]).keys()].map(key => key + 1).map((e) => {return (<td key={e}>{e}</td>)})}</tr>
-						</tbody>
+				<tbody id="calendar_body">
+					<tr><td>{year + "년"}</td></tr>
+					<tr>
+					<td>
+						<button onClick={(e) => { MonthChange(-1);}}>{month - 1 > 1 ? month - 1 : 12}</button>
+					</td>
+					<td>{month + "월"}</td>
+					<td>
+						<button onClick={(e) => { MonthChange(1);}}>{month + 1 < 12 ? month + 1 : 1}</button>
+					</td>
+					</tr>
+					<tr>
+						<td>일</td>
+						<td>월</td>
+						<td>화</td>
+						<td>수</td>
+						<td>목</td>
+						<td>금</td>
+						<td>토</td>
+					</tr>
+					<tr id="date">{[...Array(lastDate[month - 1]).keys()].map(key => key + 1).map((e) => {return (<td key={e}>{e}</td>)})}</tr>
+				</tbody>
         	</table>        
         </>
     )

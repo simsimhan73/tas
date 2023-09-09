@@ -13,7 +13,7 @@ type ReadProps = {
     const [data, setData] = useState<string | null>("");
 
     async function add() {
-      let res = await fetch("https://simsimhan73.github.io/tas/api", {method : "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify({"date" : props.params.id, "content" : data})});
+      let res = await fetch("https://tas.vercel.app/api", {method : "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify({"date" : props.params.id, "content" : data})});
       console.log(res)
 
       return res;

@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    basePath: "/tas",
-    output: "export",
-    assetPrefix: 'https://tas.vercel.app/',
+const debug = process.env.NODE_ENV !== 'production'
+const name = 'tas'
+
+module.exports = {
+  assetPrefix: !debug ? `/${name}/` : '',
 }
 
 module.exports = nextConfig

@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './page.module.css'
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Link from 'next/link';
 
@@ -13,17 +13,9 @@ export default function Home() {
 	const [day, setDay] = useState<number>(new Date().getDay());
 	const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	const week = ["일", "월", "화", "수", "목", "금", "토"];
-  let schedule : Array<scheduleType> = new Array();
+  const [schedule, setSchedule] = useState<Array<scheduleType>>()
 
-	if(typeof window === 'object') {
-		document.addEventListener("DOMContentLoaded", function (e) {
-
-
-			
-			let body = document.getElementById("calendar_body") as HTMLTableSectionElement
-		
-		})
-	}
+  useEffect(() => {init().then();}, [])
 
 	function getFirstDay() : number {
 		return new Date(year.toString() + "-" + (month < 10 ? "0" + month.toString() : month.toString()) + "-01").getDay()
@@ -60,9 +52,10 @@ export default function Home() {
 	MakeCalendar()	
 
   async function init() {
-    const res = await (await fetch('http://localhost:3000/api')).json()
-    console.log(res)
+    const res = await (await fetch('https://simsimhan73.github.io/tas/api', {method : "GET", mode : "same-origin"})).json()
     let arr : Array<scheduleType> = new Array();
+
+    console.log(res)
 
     for(let data of res) {
       let _year, _month, _date;
@@ -73,7 +66,7 @@ export default function Home() {
       arr.push(x);
     }
 
-    schedule = arr;
+    setSchedule(arr);
   }
 
   function find(date : number) : Array<React.JSX.Element> | undefined {
@@ -81,17 +74,20 @@ export default function Home() {
 
     let result : Array<React.JSX.Element> = new Array();
 
+    let z = year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (date< 10 ? "0" + date.toString() : date.toString())
+
     for(let i of schedule)
     {
-      if(year === i.year && month === i.month && date === i.date) result.push((<label style=
-        {{'border' : '1px solid white', 'borderRadius' : '5px', 'margin' : '10px', 'display' : 'block'}}>{i.content}</label>));
+      if(year === i.year && month === i.month && date === i.date) result.push((<label key={i.content} className=
+        {styles.month_button} style={{'display' : 'block'}} onClick={(e) => remove(z, i.content)}>{i.content}</label>));
     }
     return result;
   }
 
-  init()
-
-  
+  function remove(c : string, content : string) {
+    fetch('https://simsimhan73.github.io/tas/api', {method : 'DELETE',  mode: "same-origin", headers: {"Content-Type" : "application/json"}, body : JSON.stringify({"date" : c, "content" : content})})
+    location.reload();
+  }
 
     return (
         <table>
@@ -126,7 +122,7 @@ export default function Home() {
 						{calendar.map((row, i) => (<tr key={year.toString() + month.toString() + (i + 1).toString() + "주"}>
 							{row.map((value, k) => (<td className={styles.date} key={k} style={weekend(k)}>
                 {value ? value : ""}{value ? <Link className={styles.month_button} href=
-                {"/" + year.toString() + (month < 10 ? month.toString() : month.toString()) + (value < 10 ? "0" + value.toString() : value.toString())+ "/add"}>일정 추가</Link> : ""}
+                {"/" + year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (value < 10 ? "0" + value.toString() : value.toString())+ "/add"}>일정 추가</Link> : ""}
                 {find(value) ? find(value)?.map((x) => x) : ""}
                 </td>
 							))}

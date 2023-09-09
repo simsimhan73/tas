@@ -1,12 +1,15 @@
 {
-  "name": "tas",
+  "name": "simsimhan73.github.io",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://simsimhan73.github.io/tas",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@types/node": "20.5.7",
@@ -16,5 +19,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
   }
 }

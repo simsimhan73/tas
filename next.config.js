@@ -2,8 +2,7 @@
 const nextConfig = {
     basePath: "/tas",
     output: "export",
-    assetPrefix: '/tas/',
-    basePath: '/repository'
+    assetPrefix: 'https://tas.vercel.app/',
 }
 
 module.exports = nextConfig

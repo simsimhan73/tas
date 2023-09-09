@@ -5,7 +5,7 @@
   "homepage": "https://simsimhan73.github.io/tas",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "predeploy": "npm run build",

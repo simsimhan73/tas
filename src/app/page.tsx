@@ -52,7 +52,7 @@ export default function Home() {
 	MakeCalendar()	
 
   async function init() {
-    const res = await (await fetch('https://simsimhan73.github.io/tas/api', {method : "GET", mode : "same-origin"})).json()
+    const res = await (await fetch('https://simsimhan73.github.io/tas/api', {method : "GET"})).json()
     let arr : Array<scheduleType> = new Array();
 
     console.log(res)
@@ -85,7 +85,7 @@ export default function Home() {
   }
 
   function remove(c : string, content : string) {
-    fetch('https://simsimhan73.github.io/tas/api', {method : 'DELETE',  mode: "same-origin", headers: {"Content-Type" : "application/json"}, body : JSON.stringify({"date" : c, "content" : content})})
+    fetch('https://simsimhan73.github.io/tas/api', {method : 'DELETE', headers: {"Content-Type" : "application/json"}, body : JSON.stringify({"date" : c, "content" : content})})
     location.reload();
   }
 

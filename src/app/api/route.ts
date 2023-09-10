@@ -7,11 +7,12 @@ const dir = path.join(process.cwd() , 'db/data.json')
 
 if(!existsSync(dir)) writeFile(dir, "[]", () => {})
 
-export function GET(
+export async function GET(
   req: Request
 ) {  
-  readFile(dir, 'utf-8').then((x) => {return NextResponse.json(JSON.parse(x))}).catch((err) => {return NextResponse.json({ message: err, success: false})});
-  
+  let data = await readFile(dir, 'utf-8');
+
+  return NextResponse.json(JSON.parse(data))
 } 
 
 export function PUT(

@@ -3,16 +3,18 @@ import { writeFileSync, existsSync, writeFile } from 'fs';
 import path from 'path';
 import {kv} from '@vercel/kv';
 
+const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
 export async function GET(
   req: Request
 ) {  
   try {
-    let x = await req.json();
-    let allDate : number[] = [...Array(x.last).keys()].map(key => key + 1);
+    let x : string = await req.url.slice(26,28);
+    let allDate : number[] = [...Array(lastDate[Number.parseInt(x)]).keys()].map(key => key + 1);
     let data = new Array();
 
     for (let i of allDate) {
-      data.push( await kv.lrange(x.month + (i < 10 ? '0' + i.toString() : i), 0, -1));
+      data.push( await kv.lrange(i < 10 ? '0' + i.toString() : i.toString(), 0, -1));
     }
     
     return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})

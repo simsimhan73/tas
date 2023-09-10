@@ -1,16 +1,14 @@
-import { NextResponse } from 'next/server';
-import { writeFileSync, existsSync, writeFile } from 'fs';
-import path from 'path';
+import { NextRequest, NextResponse } from 'next/server';
 import {kv} from '@vercel/kv';
+import { useRouter } from 'next/router';
 
 const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-export async function GET(
-  req: Request
-) {  
+export async function GET(request : Request, { params }: { params: { id: string } }) {  
+  const res = await fetch(`https://data.mongodb-api.com/${params.id}`)
+
   try {
-    let x : string = await req.url.slice(26,28);
-    let allDate : number[] = [...Array(lastDate[Number.parseInt(x)]).keys()].map(key => key + 1);
+    let allDate : number[] = [...Array(lastDate[Number.parseInt(params.id)]).keys()].map(key => key + 1);
     let data = new Array();
 
     for (let i of allDate) {
@@ -22,6 +20,7 @@ export async function GET(
     console.log(err)
   }
 } 
+
 
 export async function PUT(
   req : Request

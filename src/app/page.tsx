@@ -7,17 +7,6 @@ import { useState } from "react";
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [...Array(31).keys()].map(key => {return {params : { id : (key + 1).toString()}}}); 
-  return { paths, fallback: false };
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const postId = context.params || '';
-  const post = { id: postId, content: `I'm the post with id ${postId}!` }; 
-  return { props: { post } };
-};
-
 export default function Home() {
 	const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
 	const [year, setYear] = useState<number>(new Date().getFullYear());

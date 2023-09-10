@@ -7,7 +7,8 @@ export async function GET(
   req: Request
 ) {  
   try {
-    let data = await kv.lrange('tas', 0, -1);
+    let x = await req.json();
+    let data = await kv.lrange(x.date, 0, -1);
     
     return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})
   } catch (err) {
@@ -19,9 +20,10 @@ export async function PUT(
   req : Request
 ) {
   try {
-  kv.lpush('tas',req.body);
+    let x = await req.json();
+    kv.lpush(x.date,x.content);
 
-  return NextResponse.json({"status" : 201});
+    return NextResponse.json({"status" : 201});
   } catch (err) {
     console.log(err)
   }
@@ -31,7 +33,8 @@ export async function DELETE(
   req : Request
 ) {
   try{
-    kv.lrem('tas',0, req.body)
+    let x = await req.json();
+    kv.lrem(x,0, x.content)
 
     return NextResponse.json({'status' : 200})
   } catch (err) {

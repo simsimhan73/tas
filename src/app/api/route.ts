@@ -10,10 +10,8 @@ if(!existsSync(dir)) writeFile(dir, "[]", () => {})
 export function GET(
   req: Request
 ) {  
-  let data;
-  readFile(dir).then((x) => data = x);
+  readFile(dir, 'utf-8').then((x) => {return NextResponse.json(JSON.parse(x))}).catch(() => {return NextResponse.json({'message' : 'error'})});
   
-  return NextResponse.json(data);
 } 
 
 export function PUT(

@@ -8,7 +8,7 @@ export async function GET(request : Request, { params }: { params: { id: string 
   const res = await fetch(`https://data.mongodb-api.com/${params.id}`)
 
   try {
-    let allDate : number[] = [...Array(lastDate[Number.parseInt((params.id.length < 6 ? '0' + params.id : params.id).slice(4, 6))]).keys()].map(key => key + 1);
+    let allDate : number[] = [...Array(lastDate[Number.parseInt(params.id.slice(4, 6))]).keys()].map(key => key + 1);
     let data = new Array();
 
     for (let i of allDate) {

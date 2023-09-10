@@ -12,7 +12,8 @@ export async function GET(request : Request, { params }: { params: { id: string 
     let data = new Array();
 
     for (let i of allDate) {
-      data.push(await kv.lrange((params.id.length > 5 ? params.id : Number.parseInt(params.id) / 10 * 10 + Number.parseInt(params.id) % 10).toString()  + (i < 10 ? '0' + i.toString() : i.toString()), 0, -1));
+      data.push(await kv.lrange(
+        (params.id.length > 5 ? params.id : Number.parseInt(params.id) / 10 * 10 + Number.parseInt(params.id) % 10).toString()  + (i < 10 ? '0' + i.toString() : i.toString()), 0, -1));
     }
     
     return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})
@@ -27,6 +28,7 @@ export async function PUT(
 ) {
   try {
     let x = await req.json();
+    console.log(x)
     kv.lpush(x.date,x.content);
 
     return NextResponse.json({"status" : 201});

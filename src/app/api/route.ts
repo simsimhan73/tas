@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { writeFileSync, existsSync, writeFile } from 'fs';
 import path from 'path';
-import { readFile } from 'fs/promises';
+import {kv} from '@vercel/kv';
  
 const dir = path.join(process.cwd() , 'db/data.json')
 
@@ -10,16 +10,17 @@ if(!existsSync(dir)) writeFile(dir, "[]", () => {})
 export async function GET(
   req: Request
 ) {  
-  let data = await readFile(dir, 'utf-8');
-
-  return NextResponse.json(JSON.parse(data))
+  let data = await kv.get('tas');
+  
+  return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})
 } 
 
-export function PUT(
+export async function PUT(
   req : Request
 ) {
-  const db = readFile(dir);
+  let db = await kv.get('tas');
 
+  
   let json = JSON.stringify(db);
     json = json.replace("[","");
     json = json.replace("]",""); 
@@ -35,11 +36,13 @@ export function PUT(
 export async function DELETE(
   req : Request
 ) {
-  const db = require(dir);
+  const db : Array<{date : string, content : string}> | null = await kv.get('tas');
 
   let find : any = await req.json();
 
   let i = 0;
+
+  if(!db) return;
 
   for(let data of db) {
     if(data.date === find.date && data.content === find.content) {
@@ -49,7 +52,7 @@ export async function DELETE(
     i++;
   }
 
-  writeFileSync(dir,JSON.stringify(db));
+  kv.set(dir,JSON.stringify(db));
 
   return NextResponse.json({'status' : 200})
 }

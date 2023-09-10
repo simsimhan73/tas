@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
-const debug = process.env.NODE_ENV !== 'production'
-const name = 'tas'
-
-module.exports = {
-  assetPrefix: !debug ? `/${name}/` : '',
+const nextConfig = {
+    images: {
+		unoptimized: true,
+	},
 }
 
 module.exports = nextConfig

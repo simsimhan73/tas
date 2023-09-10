@@ -5,6 +5,18 @@ import styles from './page.module.css'
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Link from 'next/link';
+import { GetStaticPaths, GetStaticProps } from 'next';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = [...Array(31).keys()].map(key => {return {params : { id : (key + 1).toString()}}}); 
+  return { paths, fallback: false };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const postId = context.params || '';
+  const post = { id: postId, content: `I'm the post with id ${postId}!` }; 
+  return { props: { post } };
+};
 
 export default function Home() {
 	const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
@@ -54,8 +66,6 @@ export default function Home() {
   async function init() {
     const res = await (await fetch('https://tas.vercel.app/api', {method : "GET"})).json()
     let arr : Array<scheduleType> = new Array();
-
-    console.log(res)
 
     for(let data of res) {
       let _year, _month, _date;
@@ -122,7 +132,7 @@ export default function Home() {
 						{calendar.map((row, i) => (<tr key={year.toString() + month.toString() + (i + 1).toString() + "주"}>
 							{row.map((value, k) => (<td className={styles.date} key={k} style={weekend(k)}>
                 {value ? value : ""}{value ? <Link className={styles.month_button} href=
-                {"/" + year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (value < 10 ? "0" + value.toString() : value.toString())+ "/add"}>일정 추가</Link> : ""}
+                {year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (value < 10 ? "0" + value.toString() : value.toString())}>일정 추가</Link> : ""}
                 {find(value) ? find(value)?.map((x) => x) : ""}
                 </td>
 							))}

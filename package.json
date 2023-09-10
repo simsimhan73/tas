@@ -2,10 +2,10 @@
   "name": "simsimhan73.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://simsimhan73.github.io/tas",
+  "homepage": "http://localhost:3000",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "predeploy": "npm run build",
@@ -21,6 +21,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "gh-pages": "^6.0.0"
+    "gh-pages": "^6.0.0",
+    "vercel": "^32.2.0"
   }
 }

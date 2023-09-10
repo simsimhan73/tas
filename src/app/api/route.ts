@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
 import { writeFileSync } from 'fs';
+import path from 'path';
  
+const dir = path.join(process.cwd() + 'db/data.json')
+
 export function GET(
   req: Request
 ) {  
-  const data = require('@/app/db/data.json');
+  const data = require(dir);
   
   return NextResponse.json(data);
 } 
@@ -12,7 +15,7 @@ export function GET(
 export function PUT(
   req : Request
 ) {
-  const db = require("@/app/db/data.json");
+  const db = require(dir);
 
   let json = JSON.stringify(db);
     json = json.replace("[","");
@@ -21,15 +24,15 @@ export function PUT(
   let res= req.json()
 
   res.then((x) => 
-  {let result = "[" + json +  (json ? "," : "")+ JSON.stringify(x) + "]"; writeFileSync(process.cwd() + "\\src\\app\\db\\data.json", result);})
+  {let result = "[" + json +  (json ? "," : "")+ JSON.stringify(x) + "]"; writeFileSync(dir, result);})
 
-  return NextResponse.json({"status" : 201, "url" : "https://simsimhan73.github.io/tas"});
+  return NextResponse.json({"status" : 201});
 }
 
 export async function DELETE(
   req : Request
 ) {
-  const db = require("@/app/db/data.json");
+  const db = require(dir);
 
   let find : any = await req.json();
 
@@ -43,7 +46,7 @@ export async function DELETE(
     i++;
   }
 
-  writeFileSync(process.cwd() + "\\src\\app\\db\\data.json",JSON.stringify(db));
+  writeFileSync(dir,JSON.stringify(db));
 
   return NextResponse.json({'status' : 200})
 }

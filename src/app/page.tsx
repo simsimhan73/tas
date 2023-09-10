@@ -16,7 +16,7 @@ export default function Home() {
 	const week = ["일", "월", "화", "수", "목", "금", "토"];
   const [schedule, setSchedule] = useState<Array<scheduleType>>()
 
-  useEffect(() => {init().then();}, [])
+  useEffect(() => {init(lastDate[month]).then();}, [])
 
 	function getFirstDay() : number {
 		return new Date(year.toString() + "-" + (month < 10 ? "0" + month.toString() : month.toString()) + "-01").getDay()
@@ -52,8 +52,8 @@ export default function Home() {
 
 	MakeCalendar()	
 
-  async function init() {
-    const res = await (await fetch('https://tas.vercel.app/api', {method : "GET"})).json()
+  async function init(m : number) {
+    const res = await (await fetch('https://tas.vercel.app/api', {method : "GET", body: JSON.stringify({month : `${year}${month}` ,last : m})})).json()
     let arr : Array<scheduleType> = new Array();
 
     for(let data of res) {

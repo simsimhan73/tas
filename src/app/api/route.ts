@@ -8,7 +8,12 @@ export async function GET(
 ) {  
   try {
     let x = await req.json();
-    let data = await kv.lrange(x.date, 0, -1);
+    let allDate : number[] = [...Array(x.last).keys()].map(key => key + 1);
+    let data = new Array();
+
+    for (let i of allDate) {
+      data.push( await kv.lrange(x.month + (i < 10 ? '0' + i.toString() : i), 0, -1));
+    }
     
     return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})
   } catch (err) {

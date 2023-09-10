@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { writeFileSync, existsSync, writeFile } from 'fs';
 import path from 'path';
+import { readFile } from 'fs/promises';
  
 const dir = path.join(process.cwd() , 'db/data.json')
 
@@ -9,7 +10,8 @@ if(!existsSync(dir)) writeFile(dir, "[]", () => {})
 export function GET(
   req: Request
 ) {  
-  const data = require(dir);
+  let data;
+  readFile(dir).then((x) => data = x);
   
   return NextResponse.json(data);
 } 
@@ -17,7 +19,7 @@ export function GET(
 export function PUT(
   req : Request
 ) {
-  const db = require(dir);
+  const db = readFile(dir);
 
   let json = JSON.stringify(db);
     json = json.replace("[","");

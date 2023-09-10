@@ -121,7 +121,7 @@ export default function Home() {
 						{calendar.map((row, i) => (<tr key={year.toString() + month.toString() + (i + 1).toString() + "주"}>
 							{row.map((value, k) => (<td className={styles.date} key={k} style={weekend(k)}>
                 {value ? value : ""}{value ? <Link className={styles.month_button} href=
-                {year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (value < 10 ? "0" + value.toString() : value.toString())}>일정 추가</Link> : ""}
+                {'add/' +year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (value < 10 ? "0" + value.toString() : value.toString())}>일정 추가</Link> : ""}
                 {find(value) ? find(value)?.map((x) => x) : ""}
                 </td>
 							))}

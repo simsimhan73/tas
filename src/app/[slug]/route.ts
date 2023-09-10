@@ -4,16 +4,16 @@ import { useRouter } from 'next/router';
 
 const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-export async function GET(request : Request, { params }: { params: { id: string } }) {  
-  const res = await fetch(`https://data.mongodb-api.com/${params.id}`)
+export async function GET(request : Request, { params }: { params: { slug: string } }) {  
+  const res = await fetch(`https://data.mongodb-api.com/${params.slug}`)
 
   try {
-    let allDate : number[] = [...Array(lastDate[Number.parseInt(params.id.slice(4, 6))]).keys()].map(key => key + 1);
+    let allDate : number[] = [...Array(lastDate[Number.parseInt(params.slug.slice(4, 6))]).keys()].map(key => key + 1);
     let data = new Array();
 
     for (let i of allDate) {
       data.push(await kv.lrange(
-        (params.id.length > 5 ? params.id : Number.parseInt(params.id) / 10 * 10 + Number.parseInt(params.id) % 10).toString()  + (i < 10 ? '0' + i.toString() : i.toString()), 0, -1));
+        (params.slug.length > 5 ? params.slug : Number.parseInt(params.slug) / 10 * 10 + Number.parseInt(params.slug) % 10).toString()  + (i < 10 ? '0' + i.toString() : i.toString()), 0, -1));
     }
     
     return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})

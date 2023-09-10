@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
-import { writeFileSync } from 'fs';
+import { writeFileSync, existsSync } from 'fs';
 import path from 'path';
  
-const dir = path.join(process.cwd() + 'db/data.json')
+const dir = path.join(process.cwd() , 'db/data.json')
+
+if(!existsSync(dir)) writeFileSync(dir, "[]")
 
 export function GET(
   req: Request

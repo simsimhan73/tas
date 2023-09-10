@@ -14,7 +14,6 @@ type ReadProps = {
 
     async function add() {
       let res = await fetch("https://tas.vercel.app/api", {method : "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify({"date" : props.params.id, "content" : data})});
-      console.log(res)
 
       return res;
       

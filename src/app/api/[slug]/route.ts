@@ -10,7 +10,7 @@ export async function GET(request : Request, { params }: { params: { slug: strin
 
     const year = params.slug.slice(0,4)
     const month = params.slug.slice(4,6)
-    
+    let index = 0;
 
     let allDate : number[] = [...Array(lastDate[Number.parseInt(month)]).keys()].map(key => key + 1);
     let data = "[";
@@ -19,6 +19,10 @@ export async function GET(request : Request, { params }: { params: { slug: strin
       const date = (i < 10 ? '0' + i.toString() : i.toString())
       data += `{date: ${year + month + date}, content: ` + (await kv.lrange(
         year + month + date, 0, -1)) + '}';
+        if(index < allDate.length) {
+          data += ','
+        }
+        i++;
     }
     
     return data ? NextResponse.json(JSON.parse(data + "]")) : NextResponse.json({'status' : 'fail'})

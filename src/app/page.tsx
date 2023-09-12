@@ -16,7 +16,7 @@ export default function Home() {
 	const week = ["일", "월", "화", "수", "목", "금", "토"];
   const [schedule, setSchedule] = useState<Array<scheduleType>>()
 
-  useEffect(() => {init(lastDate[month]).then();}, [])
+  useEffect(() => {init(lastDate[month]).then();}, [month])
 
 	function getFirstDay() : number {
 		return new Date(year.toString() + "-" + (month < 10 ? "0" + month.toString() : month.toString()) + "-01").getDay()

@@ -58,9 +58,9 @@ export default function Home() {
 
     for(let data of res) {
       let _year, _month, _date;
-      _year = Number.parseInt(data.date.splice(0,4))
-      _month = Number.parseInt(data.date.splice(4,6))
-      _date = Number.parseInt(data.date.splice(6,8))
+      _year = Number.parseInt(data.date.slice(0,4))
+      _month = Number.parseInt(data.date.slice(4,6))
+      _date = Number.parseInt(data.date.slice(6,8))
       let x : scheduleType = { year : _year, month : _month, date: _date , content: data["content"]}
       arr.push(x);
     }

@@ -22,7 +22,7 @@ export async function GET(request : Request, { params }: { params: { slug: strin
         if(index !== 0) {
           data += ','
         }
-        data += `{"date": ${year + month + date}, "content": ${content}}`; i++
+        data += `{"date": "${year + month + date}", "content": "${content}"}`; i++
       } else continue;
 
     }

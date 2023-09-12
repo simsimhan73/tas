@@ -13,24 +13,19 @@ export async function GET(request : Request, { params }: { params: { slug: strin
     let index = 0;
 
     let allDate : number[] = [...Array(lastDate[Number.parseInt(month)]).keys()].map(key => key + 1);
-    let data = "";
+    let data : object[] = [];
 
     for (let i of allDate) {
       const date = (i < 10 ? '0' + i.toString() : i.toString())
       const content = await kv.lrange(year + month + date, 0, -1);
           
       if(content.length > 0) {
-        for (let ing of content) {
-          if(index !== 0) {
-            data += ','
-          }
-          data += `{"date": "${year + month + date}", "content": "${ing}"}`; i++;
-        }
+        for (let ing of content) data.push({"date": year + month + date, "content": ing});
       } else continue;
 
     }
     
-    return data ? NextResponse.json(JSON.parse(data)) : NextResponse.json({'status' : 'fail'})
+    return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})
   } catch (err) {
     console.log(err)
   }

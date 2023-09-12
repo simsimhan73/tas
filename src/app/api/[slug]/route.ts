@@ -24,7 +24,7 @@ export async function GET(request : Request, { params }: { params: { slug: strin
           if(index !== 0) {
             data += ','
           }
-          data += `{"date": ${year + month + date}, "content": ${ing}}`; i++;
+          data += `{"date": "${year + month + date}", "content": "${ing}"}`; i++;
         }
       } else continue;
 

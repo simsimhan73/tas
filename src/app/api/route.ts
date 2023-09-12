@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import {kv} from '@vercel/kv';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { writeFile } from 'fs/promises';
 
 let db =  path.join(process.cwd(), 'json');
 
@@ -20,6 +21,7 @@ export async function PUT(
         }
       }
       fileContents.push({"date" : x.date, "content" : [x.content]})
+      writeFile(db + '/data.json',fileContents);
 
       return NextResponse.json({"status" : 201});
     } catch (err) {

@@ -1,34 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {kv} from '@vercel/kv';
-import { useRouter } from 'next/router';
+import path from 'path';
+import { promises as fs } from 'fs';
 
 const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
+let db =  path.join(process.cwd(), 'json');
+
 export async function GET(request : Request, { params }: { params: { slug: string } }) {  
-
-  try {
-
-    const year = params.slug.slice(0,4)
-    const month = params.slug.slice(4,6)
-    let index = 0;
-
-    let allDate : number[] = [...Array(lastDate[Number.parseInt(month)]).keys()].map(key => key + 1);
-    let data : object[] = [];
-
-    for (let i of allDate) {
-      const date = (i < 10 ? '0' + i.toString() : i.toString())
-      const content = await kv.lrange(year + month + date, 0, -1);
-          
-      if(content.length > 0) {
-        for (let ing of content) data.push({"date": year + month + date, "content": ing});
-      } else continue;
-
-    }
-    
-    return data ? NextResponse.json(data) : NextResponse.json({'status' : 'fail'})
+  const fileContents = JSON.parse(await fs.readFile(db + '/data.json', 'utf8'));
+  try {    
+    return NextResponse.json(fileContents)
   } catch (err) {
     console.log(err)
   }
 } 
-
-

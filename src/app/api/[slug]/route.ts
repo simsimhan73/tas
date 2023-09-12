@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export async function GET(request : Request, { params }: { params: { slug: string } }) {  
-  const res = await fetch(`https://tas.vercel.app/api/${params.slug}`)
 
   try {
     let allDate : number[] = [...Array(lastDate[Number.parseInt(params.slug.slice(4, 6))]).keys()].map(key => key + 1);

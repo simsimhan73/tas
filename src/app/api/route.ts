@@ -48,7 +48,7 @@ export async function PUT(
                 i++;
             }
         }
-  
+      writeFile(db + '/data.json',fileContents);
       return NextResponse.json({'status' : 200})
     } catch (err) {
       console.log(err)

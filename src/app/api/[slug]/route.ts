@@ -24,6 +24,7 @@ export async function GET(request : Request, { params }: { params: { slug: strin
         }
         i++;
     }
+    console.log(data)
     
     return data ? NextResponse.json(JSON.parse(data + "]")) : NextResponse.json({'status' : 'fail'})
   } catch (err) {

@@ -17,12 +17,15 @@ export async function GET(request : Request, { params }: { params: { slug: strin
 
     for (let i of allDate) {
       const date = (i < 10 ? '0' + i.toString() : i.toString())
-      const content = await kv.lrange(year + month + date, 0, -1);     
+      const content = await kv.lrange(year + month + date, 0, -1);
+          
       if(content.length > 0) {
-        if(index !== 0) {
-          data += ','
+        for (let ing of content) {
+          if(index !== 0) {
+            data += ','
+          }
+          data += `{"date": ${year + month + date}, "content": ${ing}}`; i++;
         }
-        data += `{"date": "${year + month + date}", "content": "${content}"}`; i++
       } else continue;
 
     }

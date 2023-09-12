@@ -7,7 +7,6 @@ export async function PUT(
   ) {
     try {
       let x = await req.json();
-      console.log(x)
       kv.lpush(x.date,x.content);
   
       return NextResponse.json({"status" : 201});
@@ -21,7 +20,7 @@ export async function PUT(
   ) {
     try{
       let x = await req.json();
-      kv.lrem(x,0, x.content)
+      kv.lrem(x.date,0, x.content)
   
       return NextResponse.json({'status' : 200})
     } catch (err) {

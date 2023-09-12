@@ -13,7 +13,7 @@ export async function GET(request : Request, { params }: { params: { slug: strin
     let index = 0;
 
     let allDate : number[] = [...Array(lastDate[Number.parseInt(month)]).keys()].map(key => key + 1);
-    let data = "[";
+    let data = "";
 
     for (let i of allDate) {
       const date = (i < 10 ? '0' + i.toString() : i.toString())
@@ -24,7 +24,6 @@ export async function GET(request : Request, { params }: { params: { slug: strin
       if(content.length > 0) {data += `{date: ${year + month + date}, content: ${content}}`; i++} else continue;
 
     }
-    data += ']'
     
     return data ? NextResponse.json(JSON.parse(data)) : NextResponse.json({'status' : 'fail'})
   } catch (err) {

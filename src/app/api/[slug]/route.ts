@@ -17,8 +17,8 @@ export async function GET(request : Request, { params }: { params: { slug: strin
 
     for (let i of allDate) {
       const date = (i < 10 ? '0' + i.toString() : i.toString())
-      data += `{date: ${year + month + date}, content: ` + (await kv.lrange(
-        year + month + date, 0, -1)) + '}';
+      const content = await kv.lrange(year + month + date, 0, -1);
+      data += `{date: ${year + month + date}, content: ${content ? content : ''}`;
         if(index < allDate.length) {
           data += ','
         }

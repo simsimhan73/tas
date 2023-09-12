@@ -7,12 +7,18 @@ const lastDate = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 export async function GET(request : Request, { params }: { params: { slug: string } }) {  
 
   try {
-    let allDate : number[] = [...Array(lastDate[Number.parseInt(params.slug.slice(4, 6))]).keys()].map(key => key + 1);
+
+    const year = params.slug.slice(0,4)
+    const month = params.slug.slice(4,6)
+    
+
+    let allDate : number[] = [...Array(lastDate[Number.parseInt(month)]).keys()].map(key => key + 1);
     let data = "[";
 
     for (let i of allDate) {
-      data += (await kv.lrange(
-        (params.slug.length > 5 ? params.slug : Number.parseInt(params.slug) / 10 * 10 + Number.parseInt(params.slug) % 10).toString()  + (i < 10 ? '0' + i.toString() : i.toString()), 0, -1));
+      const date = (i < 10 ? '0' + i.toString() : i.toString())
+      data += `{date: ${year + month + date}, content: ` + (await kv.lrange(
+        year + month + date, 0, -1)) + '}';
     }
     
     return data ? NextResponse.json(JSON.parse(data + "]")) : NextResponse.json({'status' : 'fail'})

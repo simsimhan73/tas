@@ -53,7 +53,7 @@ export default function Home() {
 	MakeCalendar()	
 
   async function init(m : number) {
-    const res = await (await fetch(`https://tas.vercel.app/api/${year}${month}`, {method : "GET"})).json()
+    const res = await (await fetch(`https://tas.vercel.app/api/${year}${(month < 10 ? '0' + month : month)}`, {method : "GET"})).json()
     let arr : Array<scheduleType> = new Array();
 
     for(let data of res) {

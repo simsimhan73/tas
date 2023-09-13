@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
+const apiUrl = 'http://localhost:3000/api'
 
 type ReadProps = {
     params: {
@@ -13,7 +14,7 @@ type ReadProps = {
     const [data, setData] = useState<string | null>("");
 
     async function add() {
-      let res = await fetch("https://tas.vercel.app/api", {method : "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify({"date" : props.params.id, "content" : data})});
+      let res = await fetch(apiUrl, {method : "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify({"date" : props.params.id, "content" : data})});
 
       return res;
       

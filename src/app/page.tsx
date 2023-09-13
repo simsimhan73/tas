@@ -16,6 +16,8 @@ export default function Home() {
 	const week = ["일", "월", "화", "수", "목", "금", "토"];
   const [schedule, setSchedule] = useState<Array<scheduleType>>()
 
+  const apiUrl = 'http://localhost:3000/api'
+
   useEffect(() => {init(lastDate[month]).then();}, [month])
 
 	function getFirstDay() : number {
@@ -53,7 +55,7 @@ export default function Home() {
 	MakeCalendar()	
 
   async function init(m : number) {
-    const res = await (await fetch(`https://tas.vercel.app/api/${year}${(month < 10 ? '0' + month : month)}`, {method : "GET"})).json()
+    const res = await (await fetch(`${apiUrl}/${year}${(month < 10 ? '0' + month : month)}`, {method : "GET"})).json()
     let arr : Array<scheduleType> = new Array();
 
     for(let data of res) {
@@ -73,18 +75,20 @@ export default function Home() {
 
     let result : Array<React.JSX.Element> = new Array();
 
-    let z = year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (date< 10 ? "0" + date.toString() : date.toString())
+    let fullDate = year.toString() + (month < 10 ? "0" + month.toString() : month.toString()) + (date< 10 ? "0" + date.toString() : date.toString())
 
     for(let i of schedule)
     {
-      if(year === i.year && month === i.month && date === i.date) result.push((<label key={i.content} className=
-        {styles.month_button} style={{'display' : 'block'}} onClick={(e) => remove(z, i.content)}>{i.content}</label>));
+      if(year === i.year && month === i.month && date === i.date) 
+      for (let k of i.content)
+      result.push((<label key={k} className=
+        {styles.month_button} style={{'display' : 'block'}} onClick={(e) => remove(fullDate, k)}>{k}</label>));
     }
     return result;
   }
 
   function remove(c : string, content : string) {
-    fetch('https://tas.vercel.app/api', {method : 'DELETE', headers: {"Content-Type" : "application/json"}, body : JSON.stringify({"date" : c, "content" : content})})
+    fetch(apiUrl, {method : 'DELETE', headers: {"Content-Type" : "application/json"}, body : JSON.stringify({"date" : c, "content" : content})})
     location.reload();
   }
 
@@ -135,5 +139,5 @@ interface scheduleType {
   year : number,
   month : number,
   date : number,
-  content : string
+  content : string[]
 }

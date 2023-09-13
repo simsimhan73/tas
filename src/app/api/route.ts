@@ -9,19 +9,22 @@ let db =  path.join(process.cwd(), 'json');
 export async function PUT(
     req : Request
   ) {
-    const fileContents = JSON.parse(await fs.readFile(db + '/data.json', 'utf8'));
+    let fileContents = JSON.parse(await fs.readFile(db + '/data.json', 'utf8'));
     try {
       let x = await req.json();
       const year = x.date.slice(0,4)
       const month = x.date.slice(4,6)
+      let index = 0;
       for(let fileContent of fileContents) {
         if(fileContent.date == x.date) {
-            fileContent.content.push(x.content);
+            fileContents[index].content.push(x.content);
+            writeFile(db + '/data.json',JSON.stringify(fileContents));
             return NextResponse.json({"status" : 201});
         }
+        index++;
       }
       fileContents.push({"date" : x.date, "content" : [x.content]})
-      writeFile(db + '/data.json',fileContents);
+      writeFile(db + '/data.json',JSON.stringify(fileContents));
 
       return NextResponse.json({"status" : 201});
     } catch (err) {
@@ -32,24 +35,27 @@ export async function PUT(
   export async function DELETE(
     req : Request
   ) {
-    const fileContents = JSON.parse(await fs.readFile(db + '/data.json', 'utf8'));
+    let fileContents = JSON.parse(await fs.readFile(db + '/data.json', 'utf8'));
     try{
       let x = await req.json();
       const year = x.date.slice(0,4)
       const month = x.date.slice(4,6)
+
+      let index = 0;
       for(const target of fileContents)
         if(target.date == x.date) {
-            let i =0;
-            for(let z in target) {
+            let i = 0;
+            for(let z of target['content']) {
                 if(z == x.content) {
-                    target.splice(i)
+                    fileContents[index].content.splice(i, 1)
+                    await writeFile(db + '/data.json',JSON.stringify(fileContents));
                     return NextResponse.json({'status' : 200})
                 }
                 i++;
             }
+            index++;
         }
-      writeFile(db + '/data.json',fileContents);
-      return NextResponse.json({'status' : 200})
+      return NextResponse.json({'status' : 500})
     } catch (err) {
       console.log(err)
     }

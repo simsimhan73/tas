@@ -48,7 +48,7 @@ export async function PUT(
             for(let z of target['content']) {
                 if(z == x.content) {
                     fileContents[index].content.splice(i, 1)
-                    await writeFile(db + '/data.json',JSON.stringify(fileContents));
+                    writeFile(db + '/data.json',JSON.stringify(fileContents));
                     return NextResponse.json({'status' : 200})
                 }
                 i++;

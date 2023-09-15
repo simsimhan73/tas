@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'TAS',
   description: 'create by codit 2023 3rd team',
+  viewport: 'width-device-width, initial-scale:1.0'
 }
 
 export default function RootLayout({
@@ -17,7 +18,7 @@ export default function RootLayout({
   
 
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={inter.className}>{children}</body>
     </html>
   )

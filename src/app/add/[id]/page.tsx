@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const apiUrl = 'http://tas.simsim-han.com/api'
+const apiUrl = 'https://tas.simsim-han.com/api'
 
 type ReadProps = {
     params: {

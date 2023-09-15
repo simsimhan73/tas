@@ -42,7 +42,7 @@ export async function PUT(
       const month = x.date.slice(4,6)
 
       let index = 0;
-      for(const target of fileContents)
+      for(const target of fileContents) {
         if(target.date == x.date) {
             let i = 0;
             for(let z of target['content']) {
@@ -53,10 +53,11 @@ export async function PUT(
                 }
                 i++;
             }
-            index++;
         }
-      return NextResponse.json({'status' : 500})
+        index++;
+      }
     } catch (err) {
       console.log(err)
     }
+    return NextResponse.json({'status' : 500})
   }

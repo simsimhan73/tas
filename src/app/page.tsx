@@ -16,7 +16,7 @@ export default function Home() {
 	const week = ["일", "월", "화", "수", "목", "금", "토"];
   const [schedule, setSchedule] = useState<Array<scheduleType>>()
 
-  const apiUrl = 'http://tas.simsim-han.com/api'
+  const apiUrl = 'https://tas.simsim-han.com/api'
 
   useEffect(() => {init(lastDate[month]).then();}, [month])
 
